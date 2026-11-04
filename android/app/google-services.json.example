@@ -1,0 +1,42 @@
+{
+  "_comment": "INSTRUCTIONS: Replace this file with your real google-services.json from Firebase console.",
+  "_steps": [
+    "1. Go to https://console.firebase.google.com",
+    "2. Create a project (or open existing)",
+    "3. Add an Android app with package name: com.aicamera.app",
+    "4. Download google-services.json",
+    "5. Place it at: android/app/google-services.json  (remove the .example suffix)",
+    "6. Enable Authentication (Email/Password + Google) in Firebase console",
+    "7. Enable Cloud Firestore",
+    "8. Enable Firebase Storage",
+    "9. Copy the Web Client ID from Authentication > Sign-in method > Google",
+    "10. Paste it into android/app/src/main/res/values/strings.xml as default_web_client_id"
+  ],
+  "project_info": {
+    "project_number": "YOUR_PROJECT_NUMBER",
+    "project_id": "YOUR_PROJECT_ID",
+    "storage_bucket": "YOUR_PROJECT_ID.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:YOUR_PROJECT_NUMBER:android:YOUR_APP_ID",
+        "android_client_info": {
+          "package_name": "com.aicamera.app"
+        }
+      },
+      "api_key": [{ "current_key": "YOUR_ANDROID_API_KEY" }],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "YOUR_WEB_CLIENT_ID.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

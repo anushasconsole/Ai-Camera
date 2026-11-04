@@ -1,0 +1,25 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Sessions directory: sessions/{sessionId}/batches/{batchId}/{deviceId}/{filename}
+    match /sessions/{sessionId}/{allPaths=**} {
+
+      // Only authenticated users may read session files.
+      // (Full participant check would require a Firestore read; for Storage rules
+      //  we accept any authenticated user reading session paths and rely on the
+      //  backend to enforce stricter access via signed URLs or IAM.)
+      allow read: if request.auth != null;
+
+      // Only the backend service-account (Admin SDK) may write.
+      // Clients upload through the backend /photos endpoint, never directly.
+      allow write: if false;
+    }
+
+    // Block everything else
+    match /{everything=**} {
+      allow read, write: if false;
+    }
+  }
+}

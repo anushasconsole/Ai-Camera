@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AI Camera</string>
+    <!-- Replace this with the Web Client ID from your Firebase console
+         (Firebase → Authentication → Sign-in method → Google → Web Client ID) -->
+    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID_HERE</string>
+    <string name="vol_up_hint_1">Press Volume Up to open camera</string>
+    <string name="vol_up_hint_2">Press Volume Up to capture photo</string>
+    <string name="vol_down_hint">Press Volume Down to analyse</string>
+    <string name="no_photos_message">Capture a photo first</string>
+    <string name="camera_permission_denied">Camera permission is required</string>
+</resources>

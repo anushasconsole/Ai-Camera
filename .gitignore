@@ -1,0 +1,25 @@
+# ── Secrets (NEVER commit these) ─────────────────────────────────────────────
+backend/.env
+backend/firebase-service-account.json
+android/app/google-services.json
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+.env
+
+# ── Android / Gradle ──────────────────────────────────────────────────────────
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+*.keystore
+*.jks
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.idea/
+*.iml
+.DS_Store

@@ -1,0 +1,81 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Helper functions ────────────────────────────────────────────────
+
+    // True when the request comes from a signed-in user
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // True when the signed-in user is the owner of the session
+    function isSessionOwner(sessionId) {
+      return isAuthenticated() &&
+        get(/databases/$(database)/documents/sessions/$(sessionId)).data.ownerId
+          == request.auth.uid;
+    }
+
+    // True when the signed-in user is a participant of the session
+    function isSessionParticipant(sessionId) {
+      return isAuthenticated() &&
+        request.auth.uid in
+          get(/databases/$(database)/documents/sessions/$(sessionId)).data.participantIds;
+    }
+
+    // ─── Users ───────────────────────────────────────────────────────────
+
+    match /users/{userId} {
+      allow read, write: if isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // ─── Sessions ────────────────────────────────────────────────────────
+
+    match /sessions/{sessionId} {
+      // Any authenticated user may read their own sessions.
+      allow read: if isSessionParticipant(sessionId);
+
+      // Only the backend (via Admin SDK, which bypasses rules) creates sessions.
+      // Client-side creates are blocked for safety.
+      allow create: if false;
+
+      // Participants may update limited fields (e.g. joining).
+      allow update: if isSessionParticipant(sessionId);
+
+      allow delete: if isSessionOwner(sessionId);
+    }
+
+    // ─── Photos ──────────────────────────────────────────────────────────
+
+    match /photos/{photoId} {
+      allow read: if isAuthenticated() &&
+        isSessionParticipant(resource.data.sessionId);
+
+      // Only backend writes; clients read only.
+      allow write: if false;
+    }
+
+    // ─── Batches ─────────────────────────────────────────────────────────
+
+    match /batches/{batchId} {
+      allow read: if isAuthenticated() &&
+        isSessionParticipant(resource.data.sessionId);
+
+      allow write: if false;
+    }
+
+    // ─── AI Responses ─────────────────────────────────────────────────────
+
+    match /ai_responses/{responseId} {
+      allow read: if isAuthenticated() && (
+        // Participant of the session that owns the batch
+        isSessionParticipant(
+          get(/databases/$(database)/documents/batches/$(resource.data.batchId)).data.sessionId
+        )
+      );
+
+      allow write: if false;
+    }
+  }
+}
