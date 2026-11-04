@@ -23,7 +23,7 @@ android {
         buildConfigField(
             "String",
             "BACKEND_BASE_URL",
-            "\"http://10.0.2.2:8000\""  // localhost alias for emulator; change for device
+            "\"ai-camera-production-90b5.up.railway.app\""  // localhost alias for emulator; change for device
         )
     }
 
