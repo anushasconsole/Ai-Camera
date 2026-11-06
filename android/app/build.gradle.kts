@@ -19,11 +19,10 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Backend URL – override in local.properties or CI env
         buildConfigField(
             "String",
             "BACKEND_BASE_URL",
-            "\"ai-camera-production-90b5.up.railway.app\""  // localhost alias for emulator; change for device
+            "\"https://ai-camera-production-90b5.up.railway.app\""
         )
     }
 
@@ -34,6 +33,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            isMinifyEnabled = false
         }
     }
 
